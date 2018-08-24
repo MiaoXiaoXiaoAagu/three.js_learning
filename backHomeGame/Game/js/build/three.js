@@ -11340,7 +11340,7 @@
 
 		setDrawRange: function ( start, count ) {
 
-			this.drawRange.start = start;
+			this.drawRange.firstRoad = start;
 			this.drawRange.count = count;
 
 		},
@@ -12334,7 +12334,7 @@
 
 			// draw range
 
-			this.drawRange.start = source.drawRange.start;
+			this.drawRange.firstRoad = source.drawRange.start;
 			this.drawRange.count = source.drawRange.count;
 
 			// user data
