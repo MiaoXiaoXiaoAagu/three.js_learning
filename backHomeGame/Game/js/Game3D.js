@@ -288,14 +288,25 @@ function initScene() {//初始化好场景，并且把全局变量people赋值
 var standardStep=50;
 var standardSpeed=10;
 var walkingRoad,roadLength,diceStep;
+var nodes=[],roads={};
+var map = new graphlib.Graph();
+/*graphlib.js*/
 
-function initMap() {
 
-    /*graphlib.js*/
-    var Graph = require("graphlib").Graph;
-    var g = new Graph();
+//深复制对象方法
+var cloneObj = function (obj) {
+    var newObj = {};
+    if (obj instanceof Array) {
+        newObj = [];
+    }
+    for (var key in obj) {
+        var val = obj[key];
+        //newObj[key] = typeof val === 'object' ? arguments.callee(val) : val; //arguments.callee 在哪一个函数中运行，它就代表哪个函数, 一般用在匿名函数中。
+        newObj[key] = typeof val === 'object' ? cloneObj(val): val;
+    }
+    return newObj;
+};
 
-}
 //向量
 Vector2 = function(x, y) { this.x = x; this.y = y; };
 Vector2.prototype = {
@@ -315,6 +326,7 @@ function Node(id,position,game) {//储存位置和游戏信息
     this.id=id;//string
     this.position=position;//vector
     this.game=game;//function
+    this.playedGame=false;
 }
 Node.prototype.getPosition=function () {
     return this.position;
@@ -375,7 +387,15 @@ Road.prototype.initStepNodes=function()
         this.initDirectRoad(this.directionNodes[i],this.directionNodes[i+1]);
     }
 };
-
+Road.prototype.reverse=function(){
+    if(!this.stepNodes)
+    {
+        alert("please init stepNodes of road first");
+    }
+    else{
+        this.stepNodes.reverse();
+    }
+};
 Road.prototype.toNextStep=function () {//判断点的类型  获取到步坐标 挪动到下一步 然后把下一步要进行的游戏全部进行完 每次到达下一步时都判断整条路是否走完。
     var self=this;
     return new Promise(function (resolve) {
@@ -399,7 +419,7 @@ Road.prototype.toNextStep=function () {//判断点的类型  获取到步坐标 
                 start=start.add(step);
                 people.position.x=start.x;
                 people.position.z=start.y;
-                console.log("x:"+people.position.x+"    y:"+people.position.z+" "+i);
+                //console.log("x:"+people.position.x+"    y:"+people.position.z+" "+i);
                 i++;
                 if(i*standardSpeed>=length)
                 {
@@ -427,18 +447,194 @@ Road.prototype.toNextStep=function () {//判断点的类型  获取到步坐标 
     });
 };
 
-var firstRoad=new Road();
-(function(){//初始化一条路
-    firstRoad.addDirectionNodes(new Node("1",new Vector2(1890,1314)));
-    firstRoad.addDirectionNodes(new Node("2",new Vector2(1274,1341),function () {
-        // console.log("play game 1");
+function initNodes(){
+    nodes.push(new Node("1",new Vector2(-916,-621),function () {
+        console.log("play game 1");
     }));
-    firstRoad.addDirectionNodes( new Node("3",new Vector2(872,1096)));
+    nodes.push(new Node("2",new Vector2(-373,-952)));
+    nodes.push(new Node("3",new Vector2(104,-606)));
+    nodes.push(new Node("4",new Vector2(956,-606),function () {
+        console.log("play game 4");
+    }));
+    nodes.push(new Node("5",new Vector2(1890,-606),function () {
+        console.log("play game 5");
+    }));
+    nodes.push(new Node("6",new Vector2(1890,110)));
+    nodes.push(new Node("7",new Vector2(1621,110),function () {
+        console.log("play game 7");
+    }));
+    nodes.push(new Node("8",new Vector2(868,110)));
+    nodes.push(new Node("9",new Vector2(75,103),function () {
+        console.log("play game 9");
+    }));
+    nodes.push(new Node("10",new Vector2(-1002,438),function () {
+        console.log("play game 10");
+    }));
+    nodes.push(new Node("11",new Vector2(-1573,499)));
+    nodes.push(new Node("12",new Vector2(-1573,1338)));
+    nodes.push(new Node("13",new Vector2(-732,1201),function () {
+        console.log("play game 13");
+    }));
+    nodes.push(new Node("14",new Vector2(-503,1095)));
+    nodes.push(new Node("15",new Vector2(-136,1320)));
+    nodes.push(new Node("16",new Vector2(232,1069),function () {
+        console.log("play game 16");
+    }));
+    nodes.push(new Node("17",new Vector2(568,1350)));
+    nodes.push(new Node("18",new Vector2(872,1096)));
+    nodes.push(new Node("19",new Vector2(868,497),function () {
+        console.log("play game 19");
+    }));
+    nodes.push(new Node("20",new Vector2(1274,1341),function () {
+        console.log("play game 20");
+    }));
+    nodes.push(new Node("21",new Vector2(1890,1341)));
+    nodes.push(new Node("22",new Vector2(-1573,-621)));
+}
+initNodes();
+
+function initRoad() {
+    var roadStart_D=new Road();
+    (function(){//初始化第一条路
+        roadStart_D.addDirectionNodes(nodes[21-1]);
+        roadStart_D.addDirectionNodes(nodes[20-1]);
+        roadStart_D.addDirectionNodes(nodes[18-1]);
+        roadStart_D.initStepNodes();
+        console.log(roadStart_D.stepNodes);
+    })();
+    var roadD_Start=cloneObj(roadStart_D);
+    roadD_Start.reverse();
+    roads["roadStart_D"]=roadStart_D;
+    roads["roadD_Start"]=roadD_Start;
+
+    var roadD_C=new Road();
+    (function(){//初始化第一条路
+        roadD_C.addDirectionNodes(nodes[18-1]);
+        roadD_C.addDirectionNodes(nodes[19-1]);
+        roadD_C.addDirectionNodes(nodes[8-1]);
+        roadD_C.initStepNodes();
+        console.log(roadD_C.stepNodes);
+    })();
+    var roadC_D=cloneObj(roadD_C);
+    roadC_D.reverse();
+    roads["roadD_C"]=roadD_C;
+    roads["roadC_D"]=roadC_D;
+
+    var roadC_B=new Road();
+    (function(){//初始化第一条路
+        roadC_B.addDirectionNodes(nodes[8-1]);
+        roadC_B.addDirectionNodes(nodes[9-1]);
+        roadC_B.initStepNodes();
+        console.log(roadC_B.stepNodes);
+    })();
+    var roadB_C=cloneObj(roadC_B);
+    roadB_C.reverse();
+    roads["roadC_B"]=roadC_B;
+    roads["roadB_C"]=roadB_C;
+
+    var roadC_A=new Road();
+    (function(){//初始化第一条路
+        roadC_A.addDirectionNodes(nodes[8-1]);
+        roadC_A.addDirectionNodes(nodes[7-1]);
+        roadC_A.addDirectionNodes(nodes[6-1]);
+        roadC_A.addDirectionNodes(nodes[5-1]);
+        roadC_A.addDirectionNodes(nodes[4-1]);
+        roadC_A.addDirectionNodes(nodes[3-1]);
+        roadC_A.addDirectionNodes(nodes[2-1]);
+        roadC_A.addDirectionNodes(nodes[1-1]);
+        roadC_A.initStepNodes();
+        console.log(roadC_A.stepNodes);
+    })();
+    var roadA_C=cloneObj(roadC_A);
+    roadA_C.reverse();
+    roads["roadC_A"]=roadC_A;
+    roads["roadA_C"]=roadA_C;
+
+    var roadA_End=new Road();
+    (function(){//初始化第一条路
+        roadA_End.addDirectionNodes(nodes[1-1]);
+        roadA_End.addDirectionNodes(nodes[22-1]);
+        roadA_End.initStepNodes();
+        console.log(roadA_End.stepNodes);
+    })();
+    var roadEnd_A=cloneObj(roadA_End);
+    roadEnd_A.reverse();
+    roads["roadA_End"]=roadA_End;
+    roads["roadEnd_A"]=roadEnd_A;
+
+    var roadA_B=new Road();
+    (function(){//初始化第一条路
+        roadA_B.addDirectionNodes(nodes[1-1]);
+        roadA_B.addDirectionNodes(nodes[9-1]);
+        roadA_B.initStepNodes();
+        console.log(roadA_B.stepNodes);
+    })();
+    var roadB_A=cloneObj(roadA_B);
+    roadB_A.reverse();
+    roads["roadA_B"]=roadA_B;
+    roads["roadB_A"]=roadB_A;
+
+    var roadD_B=new Road();
+    (function(){//初始化第一条路
+        roadD_B.addDirectionNodes(nodes[17-1]);
+        roadD_B.addDirectionNodes(nodes[16-1]);
+        roadD_B.addDirectionNodes(nodes[15-1]);
+        roadD_B.addDirectionNodes(nodes[14-1]);
+        roadD_B.addDirectionNodes(nodes[13-1]);
+        roadD_B.addDirectionNodes(nodes[12-1]);
+        roadD_B.addDirectionNodes(nodes[11-1]);
+        roadD_B.addDirectionNodes(nodes[10-1]);
+        roadD_B.addDirectionNodes(nodes[9-1]);
+        roadD_B.initStepNodes();
+        console.log(roadD_B.stepNodes);
+    })();
+    var roadB_D=cloneObj(roadD_B);
+    roadB_D.reverse();
+    roads["roadD_B"]=roadD_B;
+    roads["roadB_D"]=roadB_D;
+}
+initRoad();
+
+function initMap() {
+    map.setNode("Start",nodes[21-1]);
+    map.setNode("D",nodes[18-1]);
+    map.setEdge("Start","D",roads["roadStart_D"]);
+    map.setEdge("D","Start",roads["roadD_Start"]);
+
+    map.setNode("C",nodes[8-1]);
+    map.setEdge("D","C",roads["roadD_C"]);
+    map.setEdge("C","D",roads["roadC_D"]);
+
+    map.setNode("A",nodes[1-1]);
+    map.setEdge("C","A",roads["roadC_A"]);
+    map.setEdge("A","C",roads["roadA_C"]);
+
+    map.setNode("B",nodes[9-1]);
+    map.setEdge("C","B",roads["roadC_B"]);
+    map.setEdge("B","C",roads["roadB_C"]);
+
+    map.setEdge("A","B",roads["roadA_B"]);
+    map.setEdge("B","A",roads["roadB_A"]);
+
+    map.setNode("End",nodes[22-1]);
+    map.setEdge("A","End",roads["roadA_End"]);
+    map.setEdge("End","A",roads["roadEnd_A"]);
+
+    map.setEdge("B","D",roads["roadB_D"]);
+    map.setEdge("D","B",roads["roadD_B"]);
+}
+initMap();
+
+var roadStart_D=new Road();
+(function(){//初始化第一条路
+    roadStart_D.addDirectionNodes(nodes[21-1]);
+    roadStart_D.addDirectionNodes(nodes[20-1]);
+    roadStart_D.addDirectionNodes(nodes[18-1]);
+    roadStart_D.initStepNodes();
+    console.log(roadStart_D.stepNodes);
 })();
-setTimeout(function () {
-    firstRoad.initStepNodes();
-    console.log(firstRoad.stepNodes);
-    walkingRoad=firstRoad;
+setTimeout(function () {//假装用户的第一次操作  因为之前不会promise，用的全局变量people就要等people加载好之后再操作
+    walkingRoad=roadStart_D;
     roadLength=21//Road.length-1;
     diceStep=6;
     async function roadSteps(time) {//每次挪完就判断是否到了路的末尾//如果到了就结束在路上的行走，没有到就继续走(递归)
@@ -452,7 +648,7 @@ setTimeout(function () {
                 await walkingRoad.toNextStep();
                 diceStep--;
                 roadLength--;
-                console.log("for循环了"+(i+1)+"次"+"  step:"+diceStep+"   "+"roadLenth"+roadLength);
+                //console.log("for循环了"+(i+1)+"次"+"  step:"+diceStep+"   "+"roadLenth"+roadLength);
                 await new Promise(function (resolve) {//每走一步的停顿
                     setTimeout(function () {
                         return resolve();
@@ -468,11 +664,10 @@ setTimeout(function () {
                         },500)
                      });*/
                 }
-
             }
 
             time++;
-            console.log("走完了骰子或者路长"+time+"次"+"   现在路的长度是："+roadLength+ "现在的step是："+diceStep);
+            //console.log("走完了骰子或者路长"+time+"次"+"   现在路的长度是："+roadLength+ "现在的step是："+diceStep);
             roadSteps(time);
         }
     }
