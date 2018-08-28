@@ -457,6 +457,7 @@ setTimeout(function () {
                     setTimeout(function () {
                         return resolve();
                     },500)
+                });
                 if(0===diceStep)
                 {
                     diceStep=3;//假装再扔一次筛子之后是3
