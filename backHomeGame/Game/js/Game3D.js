@@ -288,23 +288,20 @@ function initScene() {//初始化好场景，并且把全局变量people赋值
 var standardStep=50;
 var standardSpeed=10;
 var walkingRoad,roadLength,diceStep;
-var nodes=[],roads={};
+var nodes=[],roads={},turning={}//岔路口;
 var map = new graphlib.Graph();
 /*graphlib.js*/
 
 
 //深复制对象方法
-var cloneObj = function (obj) {
-    var newObj = {};
-    if (obj instanceof Array) {
-        newObj = [];
+var cloneRoad = function (oldRoad) {
+   var newRoad=new Road();
+   //反序拷贝stepNodes;
+    for(var i=oldRoad.stepNodes.length-1,item=oldRoad.stepNodes[i];item=oldRoad.stepNodes[i];i--)
+    {
+        newRoad.stepNodes.push(item);
     }
-    for (var key in obj) {
-        var val = obj[key];
-        //newObj[key] = typeof val === 'object' ? arguments.callee(val) : val; //arguments.callee 在哪一个函数中运行，它就代表哪个函数, 一般用在匿名函数中。
-        newObj[key] = typeof val === 'object' ? cloneObj(val): val;
-    }
-    return newObj;
+    return newRoad;
 };
 
 //向量
@@ -348,8 +345,6 @@ function Road() {
     this.stepNodes=[];
     this.stepNodesCount=0;
     var self=this;
-
-
     this.initDirectRoad=function (start,end) { //计算出两点之间的所有步，并且加到this.setpNodes上,不加start,只加end
         var vector=end.position.subtract(start.position);
         var roadLenth=vector.length();
@@ -500,10 +495,9 @@ function initRoad() {
         roadStart_D.addDirectionNodes(nodes[20-1]);
         roadStart_D.addDirectionNodes(nodes[18-1]);
         roadStart_D.initStepNodes();
-        console.log(roadStart_D.stepNodes);
+        //console.log(roadStart_D.stepNodes);
     })();
-    var roadD_Start=cloneObj(roadStart_D);
-    roadD_Start.reverse();
+    var roadD_Start=cloneRoad(roadStart_D);
     roads["roadStart_D"]=roadStart_D;
     roads["roadD_Start"]=roadD_Start;
 
@@ -513,10 +507,9 @@ function initRoad() {
         roadD_C.addDirectionNodes(nodes[19-1]);
         roadD_C.addDirectionNodes(nodes[8-1]);
         roadD_C.initStepNodes();
-        console.log(roadD_C.stepNodes);
+       // console.log(roadD_C.stepNodes);
     })();
-    var roadC_D=cloneObj(roadD_C);
-    roadC_D.reverse();
+    var roadC_D=cloneRoad(roadD_C);
     roads["roadD_C"]=roadD_C;
     roads["roadC_D"]=roadC_D;
 
@@ -525,10 +518,9 @@ function initRoad() {
         roadC_B.addDirectionNodes(nodes[8-1]);
         roadC_B.addDirectionNodes(nodes[9-1]);
         roadC_B.initStepNodes();
-        console.log(roadC_B.stepNodes);
+        //console.log(roadC_B.stepNodes);
     })();
-    var roadB_C=cloneObj(roadC_B);
-    roadB_C.reverse();
+    var roadB_C=cloneRoad(roadC_B);
     roads["roadC_B"]=roadC_B;
     roads["roadB_C"]=roadB_C;
 
@@ -543,10 +535,9 @@ function initRoad() {
         roadC_A.addDirectionNodes(nodes[2-1]);
         roadC_A.addDirectionNodes(nodes[1-1]);
         roadC_A.initStepNodes();
-        console.log(roadC_A.stepNodes);
+        //console.log(roadC_A.stepNodes);
     })();
-    var roadA_C=cloneObj(roadC_A);
-    roadA_C.reverse();
+    var roadA_C=cloneRoad(roadC_A);
     roads["roadC_A"]=roadC_A;
     roads["roadA_C"]=roadA_C;
 
@@ -555,10 +546,9 @@ function initRoad() {
         roadA_End.addDirectionNodes(nodes[1-1]);
         roadA_End.addDirectionNodes(nodes[22-1]);
         roadA_End.initStepNodes();
-        console.log(roadA_End.stepNodes);
+        //console.log(roadA_End.stepNodes);
     })();
-    var roadEnd_A=cloneObj(roadA_End);
-    roadEnd_A.reverse();
+    var roadEnd_A=cloneRoad(roadA_End);
     roads["roadA_End"]=roadA_End;
     roads["roadEnd_A"]=roadEnd_A;
 
@@ -567,15 +557,15 @@ function initRoad() {
         roadA_B.addDirectionNodes(nodes[1-1]);
         roadA_B.addDirectionNodes(nodes[9-1]);
         roadA_B.initStepNodes();
-        console.log(roadA_B.stepNodes);
+        //console.log(roadA_B.stepNodes);
     })();
-    var roadB_A=cloneObj(roadA_B);
-    roadB_A.reverse();
+    var roadB_A=cloneRoad(roadA_B);
     roads["roadA_B"]=roadA_B;
     roads["roadB_A"]=roadB_A;
 
     var roadD_B=new Road();
     (function(){//初始化第一条路
+        roadD_B.addDirectionNodes(nodes[18-1]);
         roadD_B.addDirectionNodes(nodes[17-1]);
         roadD_B.addDirectionNodes(nodes[16-1]);
         roadD_B.addDirectionNodes(nodes[15-1]);
@@ -586,10 +576,9 @@ function initRoad() {
         roadD_B.addDirectionNodes(nodes[10-1]);
         roadD_B.addDirectionNodes(nodes[9-1]);
         roadD_B.initStepNodes();
-        console.log(roadD_B.stepNodes);
+        //console.log(roadD_B.stepNodes);
     })();
-    var roadB_D=cloneObj(roadD_B);
-    roadB_D.reverse();
+    var roadB_D=cloneRoad(roadD_B);
     roads["roadD_B"]=roadD_B;
     roads["roadB_D"]=roadB_D;
 }
@@ -622,6 +611,16 @@ function initMap() {
 
     map.setEdge("B","D",roads["roadB_D"]);
     map.setEdge("D","B",roads["roadD_B"]);
+
+    function initTurning() {
+        var turingName=map.nodes();
+        for(var i=0;i<turingName.length;i++)
+        {
+            var nodeName=turingName[i];
+            turning[nodeName]=map.node("nodeName");
+        }
+    }
+    initTurning();
 }
 initMap();
 
@@ -631,47 +630,96 @@ var roadStart_D=new Road();
     roadStart_D.addDirectionNodes(nodes[20-1]);
     roadStart_D.addDirectionNodes(nodes[18-1]);
     roadStart_D.initStepNodes();
-    console.log(roadStart_D.stepNodes);
 })();
+
 setTimeout(function () {//假装用户的第一次操作  因为之前不会promise，用的全局变量people就要等people加载好之后再操作
-    walkingRoad=roadStart_D;
-    roadLength=21//Road.length-1;
+
     diceStep=6;
-    async function roadSteps(time) {//每次挪完就判断是否到了路的末尾//如果到了就结束在路上的行走，没有到就继续走(递归)
-        var n=Math.min(roadLength,diceStep);
-        if(0===roadLength)
-        {
-            return 0;
-        }else{
-            for(i=0;i<n;i++)
-            {
-                await walkingRoad.toNextStep();
-                diceStep--;
-                roadLength--;
-                //console.log("for循环了"+(i+1)+"次"+"  step:"+diceStep+"   "+"roadLenth"+roadLength);
-                await new Promise(function (resolve) {//每走一步的停顿
-                    setTimeout(function () {
-                        return resolve();
-                    },500)
-                });
-                if(0===diceStep)
+    function roadWalking(walkingRoad) {//在一条路上走
+        return new Promise(function (resolved) {
+
+            async function roadSteps() {//还是在一条路上走，只不过注重每一步的动画和游戏
+
+                //每次挪完就判断是否到了路的末尾//如果到了就结束在路上的行走，没有到就继续走(递归)
+                var n=Math.min(roadLength,diceStep);
+                if(0===roadLength)
                 {
-                    diceStep=3;//假装再扔一次筛子之后是3
-                    /*await new Promise(function (resolve) {//异步加载筛子的动画
-                        setTimeout(function () {
-                            console.log("再扔了一次筛子");
-                            return resolve();
-                        },500)
-                     });*/
+                    return 0;
+                }else{
+                    for(i=0;i<n;i++)
+                    {
+                        await walkingRoad.toNextStep();
+                        diceStep--;
+                        roadLength--;
+                        //console.log("for循环了"+(i+1)+"次"+"  step:"+diceStep+"   "+"roadLenth"+roadLength);
+                        /*await new Promise(function (resolve) {//每走一步的停顿
+                            setTimeout(function () {
+                                return resolve();
+                            },500)
+                        });*/
+                        if(0===diceStep)
+                        {
+                            diceStep=3;//假装再扔一次筛子之后是3
+                            await new Promise(function (resolve) {//异步加载筛子的动画
+                            setTimeout(function () {
+                                console.log("再扔了一次筛子");
+                                return resolve();
+                            },500)
+                        });
+                        }
+                    }
+
+                    //console.log("走完了骰子或者路长"+time+"次"+"   现在路的长度是："+roadLength+ "现在的step是："+diceStep);
+                    await roadSteps();
                 }
             }
+            var roadLength=walkingRoad.stepNodes.length-1;//因为是递归要用的变量，所以提到roadSteps外面
+            roadSteps().then(function () {return resolved("finish a road")});
 
-            time++;
-            //console.log("走完了骰子或者路长"+time+"次"+"   现在路的长度是："+roadLength+ "现在的step是："+diceStep);
-            roadSteps(time);
+        });
+    }
+
+    async function mapGame(){
+        var turningNow="Start",turningNext;//原点是start
+        var walkingRoad=roads["roadStart_D"];
+        for(var i=0;i<20;i++)//最多走20条路
+        {
+            if(people.position.x===nodes[22-1].position.x&&people.position.z===nodes[22-1].position.y)//到达终点
+            {
+                alert("到达终点");
+                return ;
+            }
+            else{
+                await (function () {//选择路线
+                    return new Promise(function (resolve) {
+                        var outEdges=map.outEdges(turningNow);
+                        var optionsNode=[];//当前点的目标点名称集
+                        for(var i=0,item=outEdges[i];item=outEdges[i];i++)
+                        {
+                            optionsNode.push(item.w);
+                            var temp=' <input type="radio" name="optionsRadios" id="optionsRadios'+i+'" value="option'+i+'" checked>'+item.w;
+                            $(".radio").eq(i).children("label").html(temp);
+                        }
+                        $('#myModal').modal('toggle');
+                        $("#closeModal").click(function () {
+                            turningNext=$("input[type=radio]:checked").parent("label").text().substring(1);
+                            var walkingRoadString='road'+turningNow+'_'+turningNext;
+                            walkingRoad=roads[walkingRoadString];
+                            return resolve();
+                        })
+
+                    });
+                })();
+
+                await roadWalking(walkingRoad);//走路线
+                turningNow=turningNext;
+            }
+
         }
     }
-    roadSteps(0).then(function (value) { console.log("走完了这条路"+"    骰子数还有："+diceStep) });
+    mapGame();
+    //roadWalking(roads["roadStart_D"]);
 },1500);
+
 
 
