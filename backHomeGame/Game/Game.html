@@ -5,10 +5,10 @@
     <title>Game</title>
 </head>
 <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet">
+<link href="css/animate.css" type="text/css" rel="stylesheet">
+<link href="css/Game.css" type="text/css" rel="stylesheet">
 <body>
-<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-    开始演示模态框
-</button>
+<div id="throwDice" class="dice" data-anijs="if: click, do: swing animated" ></div>
 <!-- 模态框（Modal） -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -45,6 +45,13 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+<div class="modal fade" id="diceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content dice_content">
+            <img  id="dice_result" class="dice_result" src="source/images/dice6.png">
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 </body>
 <script src="js/build/three.js"></script>
 <script src="js/libs/inflate.min.js"></script>
@@ -56,5 +63,6 @@
 <script src="js/libs/graphlib.js"></script>
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script src="js/anijs.js"></script>
 <script src="js/Game3D.js"></script>
 </html>

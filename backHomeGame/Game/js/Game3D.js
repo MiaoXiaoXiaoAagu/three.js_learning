@@ -1,11 +1,24 @@
 var people;
+var turningModel,turnings=[],scene;
+function Turning(mesh,position,angle,road){
+    this.mesh=mesh.clone();
+    this.position=position;
+    this.angle=angle;
+    this.road="road"+road;
+}
+Turning.prototype.initTurning=function(){
+    var mesh=this.mesh;
+    mesh.position.set(this.position.x,0,this.position.y);
+    mesh.rotateY(Math.PI*(this.angle/180));
+};
+
 initScene();
 function initScene() {//初始化好场景，并且把全局变量people赋值
     /*待整理*/
     /*移动人物的gui和相机切换的整理*/
     if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
-    var meshes = [], mixers = [], camera, scene, renderer, controls;
+    var meshes = [], mixers = [], camera, renderer, controls;
     var clock = new THREE.Clock;
     var guiControl;
 
@@ -22,11 +35,56 @@ function initScene() {//初始化好场景，并且把全局变量people赋值
         switchCamara();
         camera.add(new THREE.DirectionalLight(0xFFFFFF, 1));
         window.addEventListener('resize', onWindowResize, false);
-        initMoldel();
+        initModel();
+        //renderer.domElement.addEventListener( 'mousemove', onDocumentMouseMove, false );
+        renderer.domElement.addEventListener( 'click', onDocumentClick, false );
+    }
+    function onDocumentClick(e) {
+        e.preventDefault();
+        var mouse = new THREE.Vector2();
+        //将鼠标点击位置的屏幕坐标转成threejs中的标准坐标,具体解释见代码释义
+        mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        //新建一个三维单位向量 假设z方向就是0.5
+        //根据照相机，把这个向量转换到视点坐标系
+        var vector = new THREE.Vector3(mouse.x, mouse.y,0.5).unproject(camera);
+
+        //在视点坐标系中形成射线,射线的起点向量是照相机， 射线的方向向量是照相机到点击的点，这个向量应该归一标准化。
+        var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
+
+        //射线和模型求交，选中一系列直线
+        var objects=[];
+        for(var i=0;i<turnings.length;i++)
+        {
+            objects.push(turnings[i].mesh);
+        }
+        var intersects = raycaster.intersectObjects(objects);
+        console.log('imtersrcts=' + intersects);
+
+        if (intersects.length > 0) {
+            //选中第一个射线相交的物体
+            SELECTED = intersects[0].object;
+            var intersected = intersects[0].object;
+            console.log(intersects[0].object);
+            var originShape=intersected.scale.x;
+            var magnification=1.05;
+            function bigger(){
+                if(originShape<1)
+                {
+                    originShape*=magnification;
+                    intersected.scale.set(originShape,originShape,originShape);
+                    requestAnimationFrame(bigger);
+                }
+            }
+            bigger();
+            setTimeout(function () {
+                scene.remove(intersected);
+            },3000);
+
+        }
 
 
     }
-
 
     function initScene() {
         scene = new THREE.Scene();
@@ -39,7 +97,7 @@ function initScene() {//初始化好场景，并且把全局变量people赋值
 
     }
 
-    function initMoldel() {
+    function initModel() {
 
         var axesHelper = new THREE.AxesHelper( 5 );
         scene.add( axesHelper );
@@ -58,7 +116,7 @@ function initScene() {//初始化好场景，并且把全局变量people赋值
         scene.add( grid );
         //load people
         var loader = new THREE.JDLoader();
-        loader.load("model/people.JD", function (data) {
+        loader.load("source/model/people.JD", function (data) {
 
             for (var i =  data.objects.length-1; i < data.objects.length; ++i)
             {
@@ -102,7 +160,7 @@ function initScene() {//初始化好场景，并且把全局变量people赋值
         });
         //load map
         var loader = new THREE.JDLoader();
-        loader.load("model/map.JD", function (data) {
+        loader.load("source/model/map.JD", function (data) {
 
             for (var i =  data.objects.length-1; i < data.objects.length; ++i)
             {
@@ -124,13 +182,73 @@ function initScene() {//初始化好场景，并且把全局变量people赋值
                     mesh.position.set(160,0,0);
                     scene.add(mesh);
 
-
                 }
 
             }
 
 
         });
+
+        function initTurning(mesh,scene) {
+            var turning=new Turning(mesh,new Vector2(-82,10),60,"B_A");
+            turnings.push(turning);
+            var turning=new Turning(mesh,new Vector2(-82,150),115,"B_D");
+            turnings.push(turning);
+            var turning=new Turning(mesh,new Vector2(235,104),-90,"B_C");
+            turnings.push(turning);
+            var turning=new Turning(mesh,new Vector2(-1013,-625),90,"A_End");
+            turnings.push(turning);
+            var turning=new Turning(mesh,new Vector2(-790,-697),-45,"A_C");
+            turnings.push(turning);
+            var turning=new Turning(mesh,new Vector2(-764,-511),-135,"A_B");
+            turnings.push(turning);
+            var turning=new Turning(mesh,new Vector2(776,85),90,"C_B");
+            turnings.push(turning);
+            var turning=new Turning(mesh,new Vector2(977,104),-90,"C_A");
+            turnings.push(turning);
+            var turning=new Turning(mesh,new Vector2(865,210),-180,"C_D");
+            turnings.push(turning);
+            var turning=new Turning(mesh,new Vector2(885,985),0,"D_C");
+            turnings.push(turning);
+            var turning=new Turning(mesh,new Vector2(778,1140),135,"D_B");
+            turnings.push(turning);
+            var turning=new Turning(mesh,new Vector2(977,1168),-135,"D_Start");
+            turnings.push(turning);
+            var turning=new Turning(mesh,new Vector2(1500,1350),90,"Start_D");
+            turnings.push(turning);
+            for(var i=0;i<turnings.length;i++)
+            {
+                turnings[i].initTurning();
+                scene.add(turnings[i].mesh);
+            }
+        }
+        //load turning
+        var loader = new THREE.JDLoader();
+        loader.load("source/model/turning.JD", function (data) {
+
+            for (var i =  data.objects.length-1; i < data.objects.length; ++i)
+            {
+
+                if (data.objects[i].type == "Mesh" || data.objects[i].type == "SkinnedMesh")
+                {
+                    var mesh = null;
+                    var matArray = createMaterials(data);
+                    if (data.objects[i].type == "SkinnedMesh")
+                    {
+                        mesh = new THREE.SkinnedMesh(data.objects[i].geometry, matArray);
+                    }
+                    else // Mesh
+                    {
+                        mesh = new THREE.Mesh(data.objects[i].geometry, matArray);
+                    }
+                    meshes.push(mesh);
+                    // mesh.scale.set(0.5,0.5,0.5);
+                    mesh.scale.set(0.5,0.5,0.5);
+                    initTurning(mesh,scene);
+                }
+            }
+        });
+
     }
 
 
@@ -224,7 +342,7 @@ function initScene() {//初始化好场景，并且把全局变量people赋值
 
     function initPerspecCamara() {
         var near = 1, far =5000;
-        camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, near, far);
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, near, far);
         camera.position.set( 0,500, 500 );
         camera.lookAt(scene.position);
         scene.add(camera);
@@ -250,13 +368,13 @@ function initScene() {//初始化好场景，并且把全局变量people赋值
         }
 
         (function () {
-            if(people)
+            if(turningModel)
             {    //gui面板控制人物移动
-                /*people.position.x=guiControl.x;
-                people.position.z=guiControl.z;*/
+                turningModel.position.x=guiControl.x;
+                turningModel.position.z=guiControl.z;
                 //人物移动显示在gui面板
-                guiControl.x=people.position.x;
-                guiControl.z=people.position.z;
+                guiControl.x=turningModel.position.x;
+                guiControl.z=turningModel.position.z;
             }
 
         })();
@@ -288,12 +406,12 @@ function initScene() {//初始化好场景，并且把全局变量people赋值
 var standardStep=50;
 var standardSpeed=10;
 var walkingRoad,roadLength,diceStep;
-var nodes=[],roads={},turning={}//岔路口;
+var nodes=[],roads={},dicesSrc=[];
 var map = new graphlib.Graph();
 /*graphlib.js*/
 
 
-//深复制对象方法
+//复制一条路线相反的路
 var cloneRoad = function (oldRoad) {
    var newRoad=new Road();
    //反序拷贝stepNodes;
@@ -612,25 +730,31 @@ function initMap() {
     map.setEdge("B","D",roads["roadB_D"]);
     map.setEdge("D","B",roads["roadD_B"]);
 
-    function initTurning() {
-        var turingName=map.nodes();
-        for(var i=0;i<turingName.length;i++)
-        {
-            var nodeName=turingName[i];
-            turning[nodeName]=map.node("nodeName");
-        }
-    }
-    initTurning();
 }
 initMap();
 
-var roadStart_D=new Road();
-(function(){//初始化第一条路
-    roadStart_D.addDirectionNodes(nodes[21-1]);
-    roadStart_D.addDirectionNodes(nodes[20-1]);
-    roadStart_D.addDirectionNodes(nodes[18-1]);
-    roadStart_D.initStepNodes();
-})();
+function initDice(){
+    for(var i=0;i<6;i++)
+    {
+        dicesSrc.push("source/images/dice"+(i+1)+".png");
+    }
+}
+initDice();
+//生成从minNum到maxNum的随机数
+function randomNum(minNum,maxNum){
+    switch(arguments.length){
+        case 1:
+            return parseInt(Math.random()*minNum+1,10);
+            break;
+        case 2:
+            return parseInt(Math.random()*(maxNum-minNum+1)+minNum,10);
+            break;
+        default:
+            return 0;
+            break;
+    }
+}
+
 
 setTimeout(function () {//假装用户的第一次操作  因为之前不会promise，用的全局变量people就要等people加载好之后再操作
 
@@ -639,7 +763,7 @@ setTimeout(function () {//假装用户的第一次操作  因为之前不会prom
         return new Promise(function (resolved) {
 
             async function roadSteps() {//还是在一条路上走，只不过注重每一步的动画和游戏
-
+                console.log("挪了一步");
                 //每次挪完就判断是否到了路的末尾//如果到了就结束在路上的行走，没有到就继续走(递归)
                 var n=Math.min(roadLength,diceStep);
                 if(0===roadLength)
@@ -649,6 +773,11 @@ setTimeout(function () {//假装用户的第一次操作  因为之前不会prom
                     for(i=0;i<n;i++)
                     {
                         await walkingRoad.toNextStep();
+                        await new Promise(function (resolve) {//每一步之后的停顿
+                            setTimeout(function () {
+                                return resolve();
+                            },500);
+                        });
                         diceStep--;
                         roadLength--;
                         //console.log("for循环了"+(i+1)+"次"+"  step:"+diceStep+"   "+"roadLenth"+roadLength);
@@ -659,13 +788,31 @@ setTimeout(function () {//假装用户的第一次操作  因为之前不会prom
                         });*/
                         if(0===diceStep)
                         {
-                            diceStep=3;//假装再扔一次筛子之后是3
-                            await new Promise(function (resolve) {//异步加载筛子的动画
+                            console.log("请点击骰子");
                             setTimeout(function () {
-                                console.log("再扔了一次筛子");
-                                return resolve();
-                            },500)
-                        });
+                                $('#throwDice').addClass('animated swing');
+                            },500);
+
+                            await new Promise(function (resolve) {//等待骰子的图标被点击
+                                $("#throwDice").unbind().click(function () {
+                                    $('#throwDice').removeClass('animated swing');
+                                    diceStep=randomNum(1,6);
+                                    $("#dice_result").attr("src",dicesSrc[diceStep-1]);
+                                    $('#dice_result').addClass('animated flipInY');
+                                    console.log("再扔了一次筛子数为"+diceStep);
+                                    $("#diceModal").modal('toggle');
+                                    return resolve();
+                                });
+                            });
+                            await new Promise(function (resolve) {//异步加载筛子的动画
+                                setTimeout(function () {
+                                    $('#dice_result').removeClass('animated flipInY');
+                                    $("#diceModal").modal('toggle');
+                                    return resolve();
+                                },2000)
+                            });
+
+
                         }
                     }
 
@@ -714,12 +861,13 @@ setTimeout(function () {//假装用户的第一次操作  因为之前不会prom
                 await roadWalking(walkingRoad);//走路线
                 turningNow=turningNext;
             }
-
         }
     }
     mapGame();
     //roadWalking(roads["roadStart_D"]);
 },1500);
+
+
 
 
 
