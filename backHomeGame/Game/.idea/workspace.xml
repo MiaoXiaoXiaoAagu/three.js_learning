@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="3d67ab0e-5d31-4f45-9c74-345bcb820c3e" name="Default" comment="" />
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="756411664">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="js" value="20" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="JavaScript" value="20" />
+        </counts>
+      </usages-collector>
+    </session>
+    <session id="463977742">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="24" />
+          <entry key="project.open.time.0" value="11" />
+          <entry key="project.open.time.1" value="2" />
+          <entry key="project.open.time.118" value="1" />
+          <entry key="project.open.time.18" value="1" />
+          <entry key="project.open.time.2" value="2" />
+          <entry key="project.open.time.34" value="1" />
+          <entry key="project.open.time.42" value="1" />
+          <entry key="project.open.time.51" value="1" />
+          <entry key="project.open.time.53" value="1" />
+          <entry key="project.open.time.56" value="1" />
+          <entry key="project.open.time.59" value="1" />
+          <entry key="project.open.time.70" value="1" />
+          <entry key="project.open.time.80" value="1" />
+          <entry key="project.opened" value="25" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="css" value="120" />
+          <entry key="html" value="256" />
+          <entry key="js" value="9159" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="CSS" value="120" />
+          <entry key="HTML" value="256" />
+          <entry key="JavaScript" value="9159" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="css" value="1" />
+          <entry key="html" value="1" />
+          <entry key="js" value="4" />
+          <entry key="ts" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="CSS" value="1" />
+          <entry key="HTML" value="1" />
+          <entry key="JavaScript" value="4" />
+          <entry key="TypeScript" value="2" />
+        </counts>
+      </usages-collector>
+    </session>
+    <session id="-135046847">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="1" />
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="JavaScript File" />
+        <option value="CSS File" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>initContrls</find>
+      <find>light</find>
+      <find>render</find>
+      <find>debugPosition</find>
+      <find>guiControl</find>
+      <find>people</find>
+      <find>an</find>
+      <find>start</find>
+      <find>node</find>
+      <find>clone</find>
+      <find>到达终点</find>
+      <find>dice</find>
+      <find>dat</find>
+      <find>dat.GUI()</find>
+      <find>animate</find>
+      <find>toNextStep</find>
+      <find>initTurning</find>
+      <find>turning</find>
+      <find>initT</find>
+      <find>mouse</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/css/Game.css" />
+        <option value="$PROJECT_DIR$/Game.html" />
+        <option value="$PROJECT_DIR$/js/Game3D.js" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="17" />
+    <option name="y" value="83" />
+    <option name="width" value="1490" />
+    <option name="height" value="845" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Game" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Game" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Game" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Game" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Game" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Game" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="HbShouldOpenHtmlAsHb" value="" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\实验室项目\回家路\Game\js" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3d67ab0e-5d31-4f45-9c74-345bcb820c3e" name="Default" comment="" />
+      <created>1534677403543</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1534677403543</updated>
+      <workItem from="1534677405013" duration="2937000" />
+      <workItem from="1534682644786" duration="582000" />
+      <workItem from="1534684686653" duration="1524000" />
+      <workItem from="1534746809800" duration="8667000" />
+      <workItem from="1534762697579" duration="3498000" />
+      <workItem from="1534852571885" duration="1184000" />
+      <workItem from="1534922038850" duration="7964000" />
+      <workItem from="1534935467727" duration="7347000" />
+      <workItem from="1534998195417" duration="8844000" />
+      <workItem from="1535017948683" duration="12645000" />
+      <workItem from="1535078187598" duration="2237000" />
+      <workItem from="1535091270453" duration="4643000" />
+      <workItem from="1535175846554" duration="607000" />
+      <workItem from="1535358368616" duration="2409000" />
+      <workItem from="1535368433523" duration="3048000" />
+      <workItem from="1535433014498" duration="10817000" />
+      <workItem from="1535455345013" duration="6975000" />
+      <workItem from="1535519825130" duration="4077000" />
+      <workItem from="1535524144869" duration="1792000" />
+      <workItem from="1535541600033" duration="7313000" />
+      <workItem from="1535597857899" duration="1787000" />
+      <workItem from="1535604449508" duration="9682000" />
+      <workItem from="1535615540955" duration="459000" />
+      <workItem from="1535616827447" duration="738000" />
+      <workItem from="1535618797407" duration="78000" />
+      <workItem from="1535628190009" duration="6414000" />
+      <workItem from="1535700122848" duration="6744000" />
+      <workItem from="1535713120475" duration="1059000" />
+      <workItem from="1535802456556" duration="93000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="126164000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12879789" />
+      <window_info id="Structure" order="1" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Terminal" order="9" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/js/libs/graphlib.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="525" column="19" lean-forward="true" selection-start-line="525" selection-start-column="19" selection-end-line="525" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/jquery-3.2.1.min.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="1174" column="4" selection-start-line="1174" selection-start-column="4" selection-end-line="1174" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/libs/dat.gui.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="4" selection-start-column="4" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/webgl_octree_raycasting.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="53" column="40" lean-forward="true" selection-start-line="53" selection-start-column="8" selection-end-line="53" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/Game.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="8" column="33" selection-start-line="8" selection-start-column="33" selection-end-line="8" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/Game3D.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="292">
+          <caret line="860" column="52" lean-forward="true" selection-start-line="860" selection-start-column="52" selection-end-line="860" selection-end-column="52" />
+          <folding>
+            <element signature="n#!!block;n#Node#0" />
+            <element signature="n#!!block;n#Road#0" />
+            <element signature="n#!!block;n#initNodes#0" />
+            <element signature="n#!!block;n#initRoad#0" />
+            <element signature="n#!!block;n#initMap#0" />
+            <element signature="n#!!block;n#randomNum#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Game.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="5" column="7" lean-forward="true" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
+          <folding>
+            <element signature="n#div#1;n#body#0;n#html#0;n#!!top" />
+            <element signature="n#div#2;n#body#0;n#html#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
